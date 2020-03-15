@@ -26,28 +26,25 @@ let f = fetch("roms/Tetris.gb")
     window.requestAnimationFrame(frame);
 
     document.addEventListener("keydown", function(event) {
-        switch (event.keyCode) {
-            case 38: rustboy.button_pressed(instance, rustboy.RustBoyButton.Up); break;
-            case 40: rustboy.button_pressed(instance, rustboy.RustBoyButton.Down); break;
-            case 37: rustboy.button_pressed(instance, rustboy.RustBoyButton.Left); break;
-            case 39: rustboy.button_pressed(instance, rustboy.RustBoyButton.Right); break;
-            case 88: rustboy.button_pressed(instance, rustboy.RustBoyButton.A); break;
-            case 90: rustboy.button_pressed(instance, rustboy.RustBoyButton.B); break;
-            case 32: rustboy.button_pressed(instance, rustboy.RustBoyButton.Select); break;
-            case 13: rustboy.button_pressed(instance, rustboy.RustBoyButton.Start); break;
-        }
+        let button = rustBoyButton(event.keyCode);
+        rustboy.button_pressed(instance, button);
     });
 
     document.addEventListener("keyup", function(event) {
-        switch (event.keyCode) {
-            case 38: rustboy.button_unpressed(instance, rustboy.RustBoyButton.Up); break;
-            case 40: rustboy.button_unpressed(instance, rustboy.RustBoyButton.Down); break;
-            case 37: rustboy.button_unpressed(instance, rustboy.RustBoyButton.Left); break;
-            case 39: rustboy.button_unpressed(instance, rustboy.RustBoyButton.Right); break;
-            case 88: rustboy.button_unpressed(instance, rustboy.RustBoyButton.A); break;
-            case 90: rustboy.button_unpressed(instance, rustboy.RustBoyButton.B); break;
-            case 32: rustboy.button_unpressed(instance, rustboy.RustBoyButton.Select); break;
-            case 13: rustboy.button_unpressed(instance, rustboy.RustBoyButton.Start); break;
-        }
+        let button = rustBoyButton(event.keyCode);
+        rustboy.button_unpressed(instance, button);
     });
 });
+
+function rustBoyButton(keycode) {
+    switch (keycode) {
+        case 38: return rustboy.RustBoyButton.Up;
+        case 40: return rustboy.RustBoyButton.Down;
+        case 37: return rustboy.RustBoyButton.Left;
+        case 39: return rustboy.RustBoyButton.Right;
+        case 88: return rustboy.RustBoyButton.A;
+        case 90: return rustboy.RustBoyButton.B;
+        case 32: return rustboy.RustBoyButton.Select;
+        case 13: return rustboy.RustBoyButton.Start;
+    }
+}
