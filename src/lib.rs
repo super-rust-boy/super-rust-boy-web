@@ -91,3 +91,26 @@ pub extern fn button_unpressed(instance: *const c_void, c_button: RustBoyButton)
         }
     }
 }
+
+#[wasm_bindgen]
+pub extern fn enable_audio(instance: *const c_void, sample_rate: u32) -> *const c_void {
+    let rust_boy = instance as *mut RustBoy;
+    unsafe {
+        if let Some(rust_boy_ref) = rust_boy.as_mut() {
+            let audio_handle = Box::new(rust_boy_ref.enable_audio(sample_rate as usize));
+            Box::into_raw(audio_handle) as *const c_void
+        } else {
+            std::ptr::null()
+        }
+    }
+}
+
+#[wasm_bindgen]
+pub extern fn get_audio_packet(handle: *const c_void, buffer: &mut [f32]) {
+    let audio_handle = handle as *mut RustBoyAudioHandle;
+    unsafe {
+        if let Some(audio_handle_ref) = audio_handle.as_mut() {
+            audio_handle_ref.get_audio_packet(buffer);
+        }
+    }
+}
